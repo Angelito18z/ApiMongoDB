@@ -1,0 +1,26 @@
+# Dependencias de Node.js
+node_modules/
+
+# Archivos de logs
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Configuración de IDEs (Visual Studio Code)
+.vscode/
+
+# Archivos de entorno
+.env
+
+# Archivos generados por el sistema
+.DS_Store  # macOS
+Thumbs.db  # Windows
+
+# Carpeta de build o dist
+/dist
+
+# Archivos de test
+coverage/
+
+# Otros archivos temporales
+*.log
