@@ -6,9 +6,7 @@ class DataController {
     static async getAll(req, res) {
         try {
             const respuesta = await Data
-            .find({},{_id:0,sensor:1,unidad:1,valor:1,createdAt:1})
-            .sort({createdAt:-1})
-            .limit(4);
+            .find({},{_id:0,sensor:1,unidad:1,valor:1,createdAt:1}).sort({createdAt:-1}).limit(6);
             
             res.send(respuesta);
         } catch (error) {
