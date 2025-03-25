@@ -14,16 +14,25 @@ class DataController {
         }
     }
 
-    // Crear un nuevo registro
-    static async create(req, res) {
-        const body = req.body;
-        try {
-            const respuesta = await Data.create(body);
-            res.send(respuesta);
-        } catch (error) {
-            res.status(500).send({ message: "Error al crear el registro", error });
+ // Crear múltiples registros
+static async create(req, res) {
+    const body = req.body;  // body debe ser un array de objetos
+    try {
+        // Asegúrate de que el cuerpo de la solicitud sea un array
+        if (!Array.isArray(body)) {
+            return res.status(400).send({ message: "El cuerpo de la solicitud debe ser un array de documentos" });
         }
+
+        // Insertar múltiples documentos
+        const respuesta = await Data.insertMany(body);
+
+        // Responder con los documentos creados
+        res.send(respuesta);
+    } catch (error) {
+        res.status(500).send({ message: "Error al crear los registros", error });
     }
+}
+
 }
 
 export default DataController;
