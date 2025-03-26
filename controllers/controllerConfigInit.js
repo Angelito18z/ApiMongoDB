@@ -20,23 +20,19 @@ class ConfigInitController {
         }
     }
 
-    // Update vehicle state
-    static async update(req, res) {
-        try {
-            const updatedState = await VehicleState.findOneAndUpdate(
-                {}, 
-                { $set: req.body },
-                { 
-                    new: true,
-                    upsert: true,
-                    projection: { _id: 0, createdAt: 0, updatedAt: 0 }
-                }
-            );
-            res.json(updatedState);
-        } catch (error) {
-            res.status(500).json({ message: "Error updating vehicle state", error });
-        }
+// controllerConfigInit.js
+static async update(req, res) {
+    try {
+      const result = await VehicleState.findOneAndUpdate(
+        {},
+        { $set: req.body },
+        { new: true, upsert: true }
+      );
+      res.send(result);
+    } catch (error) {
+      res.status(500).send({ message: "Update failed", error });
     }
+  }
 }
 
 export default ConfigInitController;
