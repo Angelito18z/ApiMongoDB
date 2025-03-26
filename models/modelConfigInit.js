@@ -1,19 +1,26 @@
-import mongoose from "mongoose"; 
+import mongoose from "mongoose";
 
-const configInit = new mongoose.Schema(
+const vehicleSchema = new mongoose.Schema(
   {
-    "buzzer-claxon": { type: Number, required: true },
-    "led-dia-noche": { type: Number, required: true },
-    "led-direccional": { type: Number, required: true },
-    "led-interno": { type: Number, required: true },
-    "servo-parabrisas": { type: Number, required: true }
+    dayNightMode: { type: Boolean, default: false },       
+    headlights: { type: Boolean, default: false },       
+    insideLights: { type: Boolean, default: false },        
+    cleanersActive: { type: Boolean, default: false },     
+    honkHorn: { type: Boolean, default: false },          
+    doorsLocked: { type: Boolean, default: true },
+    musicPlaying: { type: Boolean, default: false },
+    weather: { 
+      type: String, 
+      enum: ['soleado', 'nublado', 'lluvia', 'nevado'],
+      default: 'soleado'
+    }
   },
   {
-    timestamps: true, // Agrega createdAt y updatedAt automáticamente
+    timestamps: true,
     versionKey: false 
   }
 );
 
-const ConfigInit = mongoose.model("ConfigInit", configInit);
+const VehicleState = mongoose.model("VehicleState", vehicleSchema);
 
-export default ConfigInit;
+export default VehicleState;

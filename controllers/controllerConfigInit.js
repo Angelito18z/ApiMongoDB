@@ -1,31 +1,40 @@
-import ConfigInit from "../models/modelConfigInit.js"; // Importamos el modelo
+import VehicleState from "../models/modelConfigInit.js";
 
 class ConfigInitController {
-    // Obtener todos los registros
+    // Get current vehicle state
     static async getAll(req, res) {
         try {
-            const respuesta = await ConfigInit.findOne({},{_id:0,createdAt:0,updatedAt:0});
-            res.send(respuesta);
+            const state = await VehicleState.findOne({}, {_id:0, createdAt:0, updatedAt:0});
+            res.json(state || {
+                dayNightMode: false,
+                headlights: false,
+                insideLights: false,
+                cleanersActive: false,
+                honkHorn: false,
+                doorsLocked: true,
+                musicPlaying: false,
+                weather: 'soleado'
+            });
         } catch (error) {
-            res.status(500).send({ message: "Error al obtener los datos", error });
+            res.status(500).json({ message: "Error getting vehicle state", error });
         }
     }
 
-    // Actualizar un registro 
+    // Update vehicle state
     static async update(req, res) {
-        const body = req.body;
         try {
-            const respuesta = await ConfigInit.findOneAndUpdate(
-                {},  
-                { $set: body }, 
-                { new: true, upsert: true }
+            const updatedState = await VehicleState.findOneAndUpdate(
+                {}, 
+                { $set: req.body },
+                { 
+                    new: true,
+                    upsert: true,
+                    projection: { _id: 0, createdAt: 0, updatedAt: 0 }
+                }
             );
-            if (!respuesta) {
-                return res.status(404).send({ message: "No hay documentos" });
-            }
-            res.send(respuesta);
+            res.json(updatedState);
         } catch (error) {
-            res.status(500).send({ message: "Error al actualizar el registro", error });
+            res.status(500).json({ message: "Error updating vehicle state", error });
         }
     }
 }
