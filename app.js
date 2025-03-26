@@ -1,24 +1,32 @@
 import express from "express";
 import dbconnect from "./config.js";
-import routes from "./routes/routes.js";  // Importamos las rutas
-import cors from 'cors';  // Importa cors
-
+import routes from "./routes/routes.js";
 
 const app = express();
 
-// Usa el middleware CORS para permitir solicitudes desde localhost:4200
-app.use(cors({
-    origin: 'http://localhost:4200',  // Permite solo solicitudes desde este origen
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Ajustar los métodos permitidos si lo deseas
-    allowedHeaders: ['Content-Type', 'Authorization'], //  Agregar más encabezados si es necesario
-}));
-
+// Remove all CORS restrictions (for development only)
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "*");
+  res.header("Access-Control-Allow-Headers", "*");
+  next();
+});
 
 app.use(express.json());
-app.use("/arduino", routes); // Usa las rutas bajo el prefijo "/arduino"
+app.use("/arduino", routes);
 
-dbconnect(); // Conectar a la base de datos
+// Add simple request logger
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl}`);
+  next();
+});
+
+dbconnect();
 
 app.listen(3001, () => {
-    console.log("Servidor corriendo en el puerto 3001");
+  console.log(`
+  Server running in OPEN CORS MODE
+  Accessible from any origin
+  API Base URL: http://localhost:3001/arduino
+  `);
 });
