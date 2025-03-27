@@ -9,6 +9,7 @@ class ConfigInitController {
                 dayNightMode: false,
                 headlights: false,
                 insideLights: false,
+                backLights: false,
                 cleanersActive: false,
                 honkHorn: false,
                 doorsLocked: true,

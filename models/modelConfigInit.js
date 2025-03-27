@@ -4,7 +4,8 @@ const vehicleSchema = new mongoose.Schema(
   {
     dayNightMode: { type: Boolean, default: false },       
     headlights: { type: Boolean, default: false },       
-    insideLights: { type: Boolean, default: false },        
+    insideLights: { type: Boolean, default: false },  
+    backlights: { type: Boolean, default: false },      
     cleanersActive: { type: Boolean, default: false },     
     honkHorn: { type: Boolean, default: false },          
     doorsLocked: { type: Boolean, default: true },
